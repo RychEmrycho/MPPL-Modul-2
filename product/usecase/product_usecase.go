@@ -3,7 +3,6 @@ package usecase
 import (
 	"MPPL-Modul-2/models"
 	"MPPL-Modul-2/product"
-	"context"
 	"time"
 )
 
@@ -12,26 +11,38 @@ type productUsecase struct {
 	contextTimeout time.Duration
 }
 
-func NewProductUsecase(repository product.Repository, duration time.Duration) product.UseCase {
-	return &productUsecase{productRepo: repository, contextTimeout: duration}
+func (pu *productUsecase) Fetch() (res []*models.Product, err error) {
+	res, err = pu.productRepo.Fetch()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
-func (productUsecase) Delete(ctx context.Context, id uint) error {
-	panic("implement me")
+func (pu *productUsecase) GetById(id uint) (*models.Product, error) {
+	res, err := pu.productRepo.GetById(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
-func (productUsecase) Fetch(ctx context.Context, cursor string, num int64) (res []*models.Product, nextCursor string, err error) {
-	panic("implement me")
+func (pu *productUsecase) Update(p *models.Product) error {
+	return pu.productRepo.Update(p)
 }
 
-func (productUsecase) GetById(ctx context.Context, id uint) (*models.Product, error) {
-	panic("implement me")
+func (pu *productUsecase) Store(p *models.Product) error {
+	return pu.productRepo.Store(p)
 }
 
-func (productUsecase) Store(ctx context.Context, p *models.Product) error {
-	panic("implement me")
+func (pu *productUsecase) Delete(id uint) error {
+	return pu.productRepo.Delete(id)
 }
 
-func (productUsecase) Update(ctx context.Context, p *models.Product) error {
-	panic("implement me")
+func NewProductUsecase(repository product.Repository, timeout time.Duration) product.UseCase {
+	return &productUsecase{productRepo: repository, contextTimeout: timeout}
 }
