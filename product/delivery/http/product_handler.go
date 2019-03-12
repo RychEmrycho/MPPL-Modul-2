@@ -24,28 +24,11 @@ func NewProductHandler(e *echo.Echo, productusecase product.UseCase) {
 }
 
 func (ph *ProductHandler) FetchProduct(c echo.Context) error {
-	listEl, nextCursor, err := ph.ProductUsecase.Fetch(ctx, cursor, int64(num))
+	listEl, _ := ph.ProductUsecase.Fetch()
 
 	return c.JSON(http.StatusOK, listEl)
 }
 
-func (ph *ProductHandler) GetById(c echo.Context) error {
-	listEl, nextCursor, err := ph.ProductUsecase.Fetch(ctx, cursor, int64(num))
-
-	return c.JSON(http.StatusOK, listEl)
-}
-
-func (ph *ProductHandler) Store(c echo.Context) error {
-	listEl, nextCursor, err := ph.ProductUsecase.Fetch(ctx, cursor, int64(num))
-
-	return c.JSON(http.StatusOK, listEl)
-}
-
-func (ph *ProductHandler) Delete(c echo.Context) error {
-	listEl, nextCursor, err := ph.ProductUsecase.Fetch(ctx, cursor, int64(num))
-
-	return c.JSON(http.StatusOK, listEl)
-}
 func isRequestValid(p *models.Product) (bool, error) {
 	validate := validator.New()
 
