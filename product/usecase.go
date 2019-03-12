@@ -2,12 +2,13 @@ package product
 
 import (
 	"MPPL-Modul-2/models"
+	"context"
 )
 
 type UseCase interface {
-	Fetch() (res []*models.Product, err error)
-	GetById(id uint) (*models.Product, error)
-	Update(p *models.Product) error
-	Store(p *models.Product) error
-	Delete(id uint) error
+	Fetch(ctx context.Context, cursor string, num int64) (res []*models.Product, nextCursor string, err error)
+	GetById(ctx context.Context, id uint) (*models.Product, error)
+	Update(ctx context.Context, p *models.Product) error
+	Store(ctx context.Context, p *models.Product) error
+	Delete(ctx context.Context, id uint) error
 }
