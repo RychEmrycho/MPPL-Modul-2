@@ -1,10 +1,10 @@
-package models
+package manage_product
 
 import "github.com/jinzhu/gorm"
 
 type Size struct {
 	gorm.Model
 
-	Name string
-	Category Category
+	Name       string
+	CategoryID uint
 }

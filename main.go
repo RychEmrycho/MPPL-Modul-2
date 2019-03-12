@@ -1,9 +1,15 @@
 package main
 
 import (
-	. "MPPL-Modul-2/models"
+	_ "github.com/go-sql-driver/mysql"
+
+	"MPPL-Modul-2/manage_product/delivery/http"
+	"MPPL-Modul-2/manage_product/repository"
+	"MPPL-Modul-2/manage_product/usecase"
+	. "MPPL-Modul-2/models/manage_product"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"github.com/labstack/echo"
 	"github.com/spf13/viper"
 	"net/url"
 )
@@ -22,18 +28,9 @@ func init() {
 }
 
 func main() {
-	//dbHost := viper.GetString(`database.host`)
-	//dbPort := viper.GetString(`database.port`)
 	dbUser := viper.GetString(`database.user`)
 	dbPassword := viper.GetString(`database.password`)
 	dbName := viper.GetString(`database.name`)
-
-	//connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPassword, dbHost, dbPort, dbName)
-	//val := url.Values{}
-	//val.Add("parseTime", "1")
-	//val.Add("loc", "Asia/Jakarta")
-	//dsn := fmt.Sprintf("%s?%s", connection, val.Encode())
-	//dbConn, err := sql.Open(`mysql`, dsn)
 
 	connection := fmt.Sprintf("%s:%s@/%s", dbUser, dbPassword, dbName)
 	val := url.Values{}
@@ -49,8 +46,14 @@ func main() {
 
 	defer dbConn.Close()
 
-	dbConn.AutoMigrate(&Product{}, &Brand{}, &Category{})
+	dbConn.AutoMigrate(&Product{}, &Brand{}, &Category{}, &Color{}, &Image{}, &Review{}, &Size{}, &Variant{})
 
+	pr := repository.NewProductRepository(dbConn)
 
+	pu := usecase.NewProductUsecase(pr)
 
+	e := echo.New()
+	http.NewProductHandler(e, pu)
+
+	_ = e.Start(viper.GetString("server.address"))
 }

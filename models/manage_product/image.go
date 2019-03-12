@@ -1,10 +1,10 @@
-package models
+package manage_product
 
 import "github.com/jinzhu/gorm"
 
 type Image struct {
 	gorm.Model
 
-	Product Product
-	ImageURL string
+	ImageURL  string
+	ProductID uint
 }

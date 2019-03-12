@@ -1,8 +1,9 @@
 package http
 
 import (
-	"MPPL-Modul-2/models"
-	"MPPL-Modul-2/product"
+	"MPPL-Modul-2/manage_product"
+	. "MPPL-Modul-2/manage_product/utils"
+	. "MPPL-Modul-2/models/manage_product"
 	"github.com/labstack/echo"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/go-playground/validator.v9"
@@ -15,16 +16,16 @@ type ResponseError struct {
 }
 
 type ProductHandler struct {
-	ProductUsecase product.UseCase
+	ProductUsecase manage_product.UseCase
 }
 
-func NewProductHandler(e *echo.Echo, productusecase product.UseCase) {
+func NewProductHandler(e *echo.Echo, productusecase manage_product.UseCase) {
 	handler := &ProductHandler{ProductUsecase: productusecase}
 
 	e.GET("/products", handler.FetchProduct)
 	e.GET("/products/:id", handler.GetById)
 	e.POST("/products", handler.Store)
-	e.POST("/products/:id", handler.Update)
+	e.PUT("/products/:id", handler.Update)
 	e.DELETE("/products/:id", handler.Delete)
 }
 
@@ -53,7 +54,7 @@ func (ph *ProductHandler) GetById(c echo.Context) error {
 }
 
 func (ph *ProductHandler) Update(c echo.Context) error {
-	var product_ models.Product
+	var product_ Product
 
 	err := c.Bind(&product_)
 
@@ -75,7 +76,7 @@ func (ph *ProductHandler) Update(c echo.Context) error {
 }
 
 func (ph *ProductHandler) Store(c echo.Context) error {
-	var product_ models.Product
+	var product_ Product
 
 	err := c.Bind(&product_)
 
@@ -109,7 +110,7 @@ func (ph *ProductHandler) Delete(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-func isRequestValid(p *models.Product) (bool, error) {
+func isRequestValid(p *Product) (bool, error) {
 	validate := validator.New()
 
 	err := validate.Struct(p)
@@ -127,11 +128,11 @@ func getStatusCode(err error) int {
 	logrus.Error(err)
 
 	switch err {
-	case models.ErrInternalServerError:
+	case ErrInternalServerError:
 		return http.StatusInternalServerError
-	case models.ErrNotFound:
+	case ErrNotFound:
 		return http.StatusNotFound
-	case models.ErrConflict:
+	case ErrConflict:
 		return http.StatusConflict
 	default:
 		return http.StatusInternalServerError

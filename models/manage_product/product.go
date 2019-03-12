@@ -1,4 +1,4 @@
-package models
+package manage_product
 
 import (
 	"github.com/jinzhu/gorm"
@@ -12,9 +12,11 @@ type Product struct {
 	Weight    int
 	Stock     int
 	TotalView int
-	Brand     Brand
-	Category  Category
-	Review    []Review
-	Image     []Image
-	Variant   []Variant
+
+	BrandID    uint
+	CategoryID uint
+
+	Review     []Review
+	Image      []Image
+	Variant    []Variant
 }

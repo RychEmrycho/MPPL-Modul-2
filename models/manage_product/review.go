@@ -1,13 +1,13 @@
-package models
+package manage_product
 
 import "github.com/jinzhu/gorm"
 
 type Review struct {
 	gorm.Model
 
-	ImageURL string
+	ImageURL  string
 	RatePoint int
-	Comment string
+	Comment   string
 
-	Product Product
+	ProductID uint
 }
