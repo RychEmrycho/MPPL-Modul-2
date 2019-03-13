@@ -48,12 +48,26 @@ func main() {
 
 	dbConn.AutoMigrate(&Product{}, &Brand{}, &Category{}, &Color{}, &Image{}, &Review{}, &Size{}, &Variant{})
 
+	br := repository.NewBrandRepository(dbConn)
+	ctr := repository.NewCategoryRepository(dbConn)
+	clr := repository.NewColorRepository(dbConn)
+	ir := repository.NewImageRepository(dbConn)
 	pr := repository.NewProductRepository(dbConn)
+	rr := repository.NewReviewRepository(dbConn)
+	sr := repository.NewSizeRepository(dbConn)
+	vr := repository.NewVariantRepository(dbConn)
 
-	pu := usecase.NewProductUsecase(pr)
+	pu := usecase.NewProductUsecase(br, ctr, clr, ir, pr, rr, sr, vr)
 
 	e := echo.New()
+	http.NewBrandHandler(e, pu)
+	http.NewCategoryHandler(e, pu)
+	http.NewColorHandler(e, pu)
+	http.NewImageHandler(e, pu)
 	http.NewProductHandler(e, pu)
+	http.NewReviewHandler(e, pu)
+	http.NewSizeHandler(e, pu)
+	http.NewVariantHandler(e, pu)
 
 	_ = e.Start(viper.GetString("server.address"))
 }
