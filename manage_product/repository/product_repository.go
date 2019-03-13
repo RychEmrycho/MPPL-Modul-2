@@ -10,7 +10,7 @@ type productRepository struct {
 	Conn *gorm.DB
 }
 
-func NewProductRepository(Conn *gorm.DB) manage_product.Repository {
+func NewProductRepository(Conn *gorm.DB) manage_product.RepositoryProduct {
 	return &productRepository{Conn}
 }
 

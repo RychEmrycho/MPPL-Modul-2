@@ -6,7 +6,7 @@ import (
 )
 
 type productUsecase struct {
-	productRepo manage_product.Repository
+	productRepo manage_product.RepositoryProduct
 }
 
 func (pu *productUsecase) Fetch() (res []*Product, err error) {
@@ -41,6 +41,6 @@ func (pu *productUsecase) Delete(id uint) error {
 	return pu.productRepo.Delete(id)
 }
 
-func NewProductUsecase(repository manage_product.Repository) manage_product.UseCase {
+func NewProductUsecase(repository manage_product.RepositoryProduct) manage_product.UseCase {
 	return &productUsecase{productRepo: repository}
 }
