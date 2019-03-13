@@ -6,5 +6,4 @@ type Category struct {
 	gorm.Model
 
 	Name string
-	ProductID uint
 }
