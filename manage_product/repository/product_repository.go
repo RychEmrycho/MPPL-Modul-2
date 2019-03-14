@@ -16,6 +16,7 @@ func NewProductRepository(Conn *gorm.DB) manage_product.RepositoryProduct {
 
 func (pr *productRepository) Fetch() (res []*Product, err error) {
 	var products []*Product
+
 	err = pr.Conn.Find(&products).Error
 
 	if err != nil {

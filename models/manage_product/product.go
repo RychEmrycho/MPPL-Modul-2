@@ -13,10 +13,16 @@ type Product struct {
 	Stock     int
 	TotalView int
 
+	// Brand has many products, BrandID is the foreign key
 	BrandID    uint
+	// Category has many products, CategoryID is the foreign key
 	CategoryID uint
 
-	Review     []Review
-	Image      []Image
-	Variant    []Variant
+	// Product has many reviews, images and variant
+	// db.Model(&user).Related(&emails)
+	// SELECT * FROM emails WHERE user_id = 111;
+	// 111 is user's primary key
+	Review  []Review
+	Image   []Image
+	Variant []Variant
 }

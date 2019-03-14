@@ -272,6 +272,21 @@ func (pu *productUsecase) DeleteProduct(id uint) error {
 	return pu.repoProduct.Delete(id)
 }
 
+func (pu *productUsecase) provideProductDetails(data []*Product) ([]*Product, error) {
+
+	// Get brand's id
+	mapProducts := map[uint]Product{}
+
+	for _, p := range data {
+		mapProducts[p.BrandID] = Product{}
+	}
+
+	// using goroutine to fetch brand's details
+
+
+	return data, nil
+}
+
 func NewProductUsecase(
 	repoBrand RepositoryBrand,
 	repoCategory RepositoryCategory,

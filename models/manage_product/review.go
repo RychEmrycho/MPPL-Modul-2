@@ -9,5 +9,6 @@ type Review struct {
 	RatePoint int
 	Comment   string
 
+	// Product has many reviews, ProductID is the foreign key
 	ProductID uint
 }
