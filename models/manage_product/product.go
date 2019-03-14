@@ -14,8 +14,10 @@ type Product struct {
 	TotalView int
 
 	// Brand has many products, BrandID is the foreign key
-	BrandID    uint
+	BrandID uint
+	Brand   Brand `gorm:"-"`
 	// Category has many products, CategoryID is the foreign key
+	Category   Category `gorm:"-"`
 	CategoryID uint
 
 	// Product has many reviews, images and variant
