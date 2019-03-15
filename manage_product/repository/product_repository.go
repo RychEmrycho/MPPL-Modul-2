@@ -34,8 +34,9 @@ func (pr *productRepository) Fetch() (res []*Product, err error) {
 	return res, nil
 }
 
-func (pr *productRepository) GetById(id uint) (res *Product, err error) {
-	err = pr.Conn.
+func (pr *productRepository) GetById(id uint) (*Product, error) {
+	var res Product
+	err := pr.Conn.
 		Preload("Brand").
 		Preload("Category").
 		Preload("Review").
@@ -43,14 +44,13 @@ func (pr *productRepository) GetById(id uint) (res *Product, err error) {
 		Preload("Variant").
 		Preload("Variant.Color").
 		Preload("Variant.Size").
-		//Preload("Variant.Size.Category").
 		Find(&res, id).Error
 
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return &res, nil
 }
 
 func (pr *productRepository) Update(p *Product) error {
