@@ -8,5 +8,5 @@ type Image struct {
 	ImageURL  string
 
 	// Product has many images, ProductID is the foreign key
-	ProductID uint
+	ProductID uint `json:"-"`
 }

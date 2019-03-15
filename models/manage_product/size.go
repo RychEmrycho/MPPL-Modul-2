@@ -11,6 +11,6 @@ type Size struct {
 	// db.Model(&user).Related(&profile)
 	// SELECT * FROM profiles WHERE id = 111;
 	// 111 is user's foreign key ProfileID
-	Category   Category
-	CategoryID uint
+	//Category   Category
+	CategoryID uint `json:"-"`
 }

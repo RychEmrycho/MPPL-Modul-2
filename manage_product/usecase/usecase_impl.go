@@ -3,7 +3,6 @@ package usecase
 import (
 	. "MPPL-Modul-2/manage_product"
 	. "MPPL-Modul-2/models/manage_product"
-	"golang.org/x/sync/errgroup"
 )
 
 type productUsecase struct {
@@ -271,55 +270,6 @@ func (pu *productUsecase) StoreProduct(p *Product) error {
 
 func (pu *productUsecase) DeleteProduct(id uint) error {
 	return pu.repoProduct.Delete(id)
-}
-
-func (pu *productUsecase) provideProductDetails(data []*Product) ([]*Product, error) {
-
-	g := errgroup.Group{}
-	// Get brand's id
-	mapBrands := map[uint]Brand{}
-
-	for _, p := range data {
-		mapBrands[p.BrandID] = Brand{}
-	}
-
-	// using goroutine to fetch brand's details
-	chanBrand := make(chan *Brand)
-	for brandID := range mapBrands {
-		g.Go(func() error {
-			res, err := pu.repoBrand.GetById(brandID)
-			if err != nil {
-				return err
-			}
-
-			chanBrand <- res
-			return nil
-		})
-	}
-
-	go func() {
-		g.Wait()
-		close(chanBrand)
-	}()
-
-	for brand := range chanBrand {
-		if brand != nil {
-			mapBrands[brand.ID] = *brand
-		}
-	}
-
-	if err := g.Wait(); err != nil {
-		return nil, err
-	}
-
-	// merge brand to product
-	for index, item := range data {
-		if b, ok := mapBrands[item.Brand.ID]; ok {
-			data[index].Brand = b
-		}
-	}
-
-	return data, nil
 }
 
 func NewProductUsecase(

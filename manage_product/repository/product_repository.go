@@ -1,8 +1,8 @@
 package repository
 
 import (
-	. "MPPL-Modul-2/models/manage_product"
 	"MPPL-Modul-2/manage_product"
+	. "MPPL-Modul-2/models/manage_product"
 	"github.com/jinzhu/gorm"
 )
 
@@ -15,26 +15,42 @@ func NewProductRepository(Conn *gorm.DB) manage_product.RepositoryProduct {
 }
 
 func (pr *productRepository) Fetch() (res []*Product, err error) {
-	var products []*Product
 
-	err = pr.Conn.Find(&products).Error
+	err = pr.Conn.
+		Preload("Brand").
+		Preload("Category").
+		Preload("Review").
+		Preload("Image").
+		Preload("Variant").
+		Preload("Variant.Color").
+		Preload("Variant.Size").
+		//Preload("Variant.Size.Category").
+		Find(&res).Error
 
 	if err != nil {
 		return nil, err
 	}
 
-	return products, nil
+	return res, nil
 }
 
-func (pr *productRepository) GetById(id uint) (*Product, error) {
-	var product_ Product
-	err := pr.Conn.Find(&product_, id).Error
+func (pr *productRepository) GetById(id uint) (res *Product, err error) {
+	err = pr.Conn.
+		Preload("Brand").
+		Preload("Category").
+		Preload("Review").
+		Preload("Image").
+		Preload("Variant").
+		Preload("Variant.Color").
+		Preload("Variant.Size").
+		//Preload("Variant.Size.Category").
+		Find(&res, id).Error
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &product_, nil
+	return res, nil
 }
 
 func (pr *productRepository) Update(p *Product) error {

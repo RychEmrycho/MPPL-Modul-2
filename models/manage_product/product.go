@@ -14,11 +14,11 @@ type Product struct {
 	TotalView int
 
 	// Brand has many products, BrandID is the foreign key
-	BrandID uint
-	Brand   Brand `gorm:"-"`
+	BrandID uint `json:"-"`
+	Brand   Brand
 	// Category has many products, CategoryID is the foreign key
-	Category   Category `gorm:"-"`
-	CategoryID uint
+	Category   Category
+	CategoryID uint `json:"-"`
 
 	// Product has many reviews, images and variant
 	// db.Model(&user).Related(&emails)

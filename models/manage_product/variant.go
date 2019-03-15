@@ -13,10 +13,10 @@ type Variant struct {
 	// If the field name is same as the variable's type name, like above example, it could be omitted, like:
 	// db.Model(&user).Related(&card)
 	Color   Color
-	ColorID uint
+	ColorID uint `json:"-"`
 	Size    Size
-	SizeID  uint
+	SizeID  uint `json:"-"`
 
 	// Product has many variants, ProductID is the foreign key
-	ProductID uint
+	ProductID uint `json:"-"`
 }

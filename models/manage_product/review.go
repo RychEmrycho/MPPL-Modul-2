@@ -10,5 +10,5 @@ type Review struct {
 	Comment   string
 
 	// Product has many reviews, ProductID is the foreign key
-	ProductID uint
+	ProductID uint `json:"-"`
 }
