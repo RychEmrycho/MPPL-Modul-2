@@ -50,8 +50,11 @@ func (ph *ColorHandler) GetById(c echo.Context) error {
 
 func (ph *ColorHandler) Update(c echo.Context) error {
 	var color_ Color
+	id_, err := strconv.Atoi(c.Param("id"))
+	id := uint(id_)
 
-	err := c.Bind(&color_)
+	color_.ID = id
+	err = c.Bind(&color_)
 
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
@@ -61,7 +64,7 @@ func (ph *ColorHandler) Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	err = ph.ColorUsecase.UpdateColor(&color_)
+	err = ph.ColorUsecase.UpdateColor(&color_, id)
 
 	if err != nil {
 		return c.JSON(GetStatusCode(err), ResponseError{Message: err.Error()})

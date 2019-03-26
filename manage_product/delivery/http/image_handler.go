@@ -50,8 +50,11 @@ func (ph *ImageHandler) GetById(c echo.Context) error {
 
 func (ph *ImageHandler) Update(c echo.Context) error {
 	var image_ Image
+	id_, err := strconv.Atoi(c.Param("id"))
+	id := uint(id_)
 
-	err := c.Bind(&image_)
+	image_.ID = id
+	err = c.Bind(&image_)
 
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
@@ -60,8 +63,7 @@ func (ph *ImageHandler) Update(c echo.Context) error {
 	if ok, err := isRequestForImageValid(&image_); !ok {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-
-	err = ph.ImageUsecase.UpdateImage(&image_)
+	err = ph.ImageUsecase.UpdateImage(&image_,id)
 
 	if err != nil {
 		return c.JSON(GetStatusCode(err), ResponseError{Message: err.Error()})

@@ -51,7 +51,12 @@ func (ph *BrandHandler) GetById(c echo.Context) error {
 func (ph *BrandHandler) Update(c echo.Context) error {
 	var brand_ Brand
 
-	err := c.Bind(&brand_)
+	id_, err := strconv.Atoi(c.Param("id"))
+	id := uint(id_)
+
+	brand_.ID = id
+
+	err = c.Bind(&brand_)
 
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
@@ -61,7 +66,7 @@ func (ph *BrandHandler) Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	err = ph.BrandUsecase.UpdateBrand(&brand_)
+	err = ph.BrandUsecase.UpdateBrand(&brand_, id)
 
 	if err != nil {
 		return c.JSON(GetStatusCode(err), ResponseError{Message: err.Error()})

@@ -53,10 +53,7 @@ func (pr *productRepository) GetById(id uint) (*Product, error) {
 	return &res, nil
 }
 
-func (pr *productRepository) Update(p *Product) error {
-	var product_ Product
-	pr.Conn.Find(product_, )
-
+func (pr *productRepository) Update(p *Product, id uint) error {
 	err := pr.Conn.Save(&p).Error
 
 	if err != nil {

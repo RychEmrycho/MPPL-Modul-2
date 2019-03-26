@@ -36,9 +36,9 @@ func (pr *colorRepository) GetById(id uint) (*Color, error) {
 	return &color_, nil
 }
 
-func (pr *colorRepository) Update(p *Color) error {
+func (pr *colorRepository) Update(p *Color, id uint) error {
 	var color_ Color
-	pr.Conn.Find(color_, )
+	pr.Conn.Find(color_, id)
 
 	err := pr.Conn.Save(&p).Error
 

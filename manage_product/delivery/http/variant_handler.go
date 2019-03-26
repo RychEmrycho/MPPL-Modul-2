@@ -50,8 +50,11 @@ func (ph *VariantHandler) GetById(c echo.Context) error {
 
 func (ph *VariantHandler) Update(c echo.Context) error {
 	var variant_ Variant
+	id_, err := strconv.Atoi(c.Param("id"))
+	id := uint(id_)
 
-	err := c.Bind(&variant_)
+	variant_.ID = id
+	err = c.Bind(&variant_)
 
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
@@ -61,7 +64,7 @@ func (ph *VariantHandler) Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	err = ph.VariantUsecase.UpdateVariant(&variant_)
+	err = ph.VariantUsecase.UpdateVariant(&variant_,id)
 
 	if err != nil {
 		return c.JSON(GetStatusCode(err), ResponseError{Message: err.Error()})

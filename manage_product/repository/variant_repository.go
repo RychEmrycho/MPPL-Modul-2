@@ -36,9 +36,9 @@ func (pr *variantRepository) GetById(id uint) (*Variant, error) {
 	return &variant_, nil
 }
 
-func (pr *variantRepository) Update(p *Variant) error {
+func (pr *variantRepository) Update(p *Variant, id uint) error {
 	var variant_ Variant
-	pr.Conn.Find(variant_, )
+	pr.Conn.Find(variant_, id)
 
 	err := pr.Conn.Save(&p).Error
 

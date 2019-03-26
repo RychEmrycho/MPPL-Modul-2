@@ -36,9 +36,9 @@ func (pr *brandRepository) GetById(id uint) (*Brand, error) {
 	return &brand_, nil
 }
 
-func (pr *brandRepository) Update(p *Brand) error {
+func (pr *brandRepository) Update(p *Brand, id uint) error {
 	var brand_ Brand
-	pr.Conn.Find(brand_, )
+	pr.Conn.Find(&brand_, id)
 
 	err := pr.Conn.Save(&p).Error
 

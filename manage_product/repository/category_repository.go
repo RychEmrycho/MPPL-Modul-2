@@ -36,9 +36,9 @@ func (pr *categoryRepository) GetById(id uint) (*Category, error) {
 	return &category_, nil
 }
 
-func (pr *categoryRepository) Update(p *Category) error {
+func (pr *categoryRepository) Update(p *Category, id uint) error {
 	var category_ Category
-	pr.Conn.Find(category_, )
+	pr.Conn.Find(category_, id)
 
 	err := pr.Conn.Save(&p).Error
 

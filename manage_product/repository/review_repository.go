@@ -36,9 +36,9 @@ func (pr *reviewRepository) GetById(id uint) (*Review, error) {
 	return &review_, nil
 }
 
-func (pr *reviewRepository) Update(p *Review) error {
+func (pr *reviewRepository) Update(p *Review,id uint) error {
 	var review_ Review
-	pr.Conn.Find(review_, )
+	pr.Conn.Find(review_, id)
 
 	err := pr.Conn.Save(&p).Error
 

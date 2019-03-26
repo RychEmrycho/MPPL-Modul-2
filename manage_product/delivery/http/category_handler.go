@@ -50,8 +50,10 @@ func (ph *CategoryHandler) GetById(c echo.Context) error {
 
 func (ph *CategoryHandler) Update(c echo.Context) error {
 	var category_ Category
-
-	err := c.Bind(&category_)
+	id_, err := strconv.Atoi(c.Param("id"))
+	id := uint(id_)
+	category_.ID = id
+	err = c.Bind(&category_)
 
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
@@ -61,7 +63,7 @@ func (ph *CategoryHandler) Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	err = ph.CategoryUsecase.UpdateCategory(&category_)
+	err = ph.CategoryUsecase.UpdateCategory(&category_,id)
 
 	if err != nil {
 		return c.JSON(GetStatusCode(err), ResponseError{Message: err.Error()})

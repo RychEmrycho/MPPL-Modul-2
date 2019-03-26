@@ -36,9 +36,9 @@ func (pr *sizeRepository) GetById(id uint) (*Size, error) {
 	return &size_, nil
 }
 
-func (pr *sizeRepository) Update(p *Size) error {
+func (pr *sizeRepository) Update(p *Size, id uint) error {
 	var size_ Size
-	pr.Conn.Find(size_, )
+	pr.Conn.Find(size_, id)
 
 	err := pr.Conn.Save(&p).Error
 

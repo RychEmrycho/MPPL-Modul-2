@@ -36,8 +36,8 @@ func (pu *productUsecase) GetByIdBrand(id uint) (*Brand, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateBrand(p *Brand) error {
-	return pu.repoBrand.Update(p)
+func (pu *productUsecase) UpdateBrand(p *Brand,id uint) error {
+	return pu.repoBrand.Update(p,id)
 }
 
 func (pu *productUsecase) StoreBrand(p *Brand) error {
@@ -68,8 +68,8 @@ func (pu *productUsecase) GetByIdCategory(id uint) (*Category, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateCategory(p *Category) error {
-	return pu.repoCategory.Update(p)
+func (pu *productUsecase) UpdateCategory(p *Category, id uint) error {
+	return pu.repoCategory.Update(p,id)
 }
 
 func (pu *productUsecase) StoreCategory(p *Category) error {
@@ -100,8 +100,8 @@ func (pu *productUsecase) GetByIdColor(id uint) (*Color, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateColor(p *Color) error {
-	return pu.repoColor.Update(p)
+func (pu *productUsecase) UpdateColor(p *Color,id uint) error {
+	return pu.repoColor.Update(p,id)
 }
 
 func (pu *productUsecase) StoreColor(p *Color) error {
@@ -132,8 +132,8 @@ func (pu *productUsecase) GetByIdImage(id uint) (*Image, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateImage(p *Image) error {
-	return pu.repoImage.Update(p)
+func (pu *productUsecase) UpdateImage(p *Image,id uint) error {
+	return pu.repoImage.Update(p,id)
 }
 
 func (pu *productUsecase) StoreImage(p *Image) error {
@@ -164,8 +164,8 @@ func (pu *productUsecase) GetByIdReview(id uint) (*Review, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateReview(p *Review) error {
-	return pu.repoReview.Update(p)
+func (pu *productUsecase) UpdateReview(p *Review, id uint) error {
+	return pu.repoReview.Update(p,id)
 }
 
 func (pu *productUsecase) StoreReview(p *Review) error {
@@ -196,8 +196,8 @@ func (pu *productUsecase) GetByIdSize(id uint) (*Size, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateSize(p *Size) error {
-	return pu.repoSize.Update(p)
+func (pu *productUsecase) UpdateSize(p *Size,id uint) error {
+	return pu.repoSize.Update(p, id)
 }
 
 func (pu *productUsecase) StoreSize(p *Size) error {
@@ -228,8 +228,8 @@ func (pu *productUsecase) GetByIdVariant(id uint) (*Variant, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateVariant(p *Variant) error {
-	return pu.repoVariant.Update(p)
+func (pu *productUsecase) UpdateVariant(p *Variant,id uint) error {
+	return pu.repoVariant.Update(p,id)
 }
 
 func (pu *productUsecase) StoreVariant(p *Variant) error {
@@ -260,8 +260,9 @@ func (pu *productUsecase) GetByIdProduct(id uint) (*Product, error) {
 	return res, nil
 }
 
-func (pu *productUsecase) UpdateProduct(p *Product) error {
-	return pu.repoProduct.Update(p)
+func (pu *productUsecase) UpdateProduct(id uint, p *Product) error {
+	p.ID = id
+	return pu.repoProduct.Update(p,id)
 }
 
 func (pu *productUsecase) StoreProduct(p *Product) error {

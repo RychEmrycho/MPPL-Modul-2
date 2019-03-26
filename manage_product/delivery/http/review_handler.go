@@ -50,8 +50,9 @@ func (ph *ReviewHandler) GetById(c echo.Context) error {
 
 func (ph *ReviewHandler) Update(c echo.Context) error {
 	var review_ Review
-
-	err := c.Bind(&review_)
+	id_, err := strconv.Atoi(c.Param("id"))
+	id := uint(id_)
+	err = c.Bind(&review_)
 
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
@@ -60,8 +61,8 @@ func (ph *ReviewHandler) Update(c echo.Context) error {
 	if ok, err := isRequestForReviewValid(&review_); !ok {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-
-	err = ph.ReviewUsecase.UpdateReview(&review_)
+	review_.ID = id
+	err = ph.ReviewUsecase.UpdateReview(&review_,id)
 
 	if err != nil {
 		return c.JSON(GetStatusCode(err), ResponseError{Message: err.Error()})

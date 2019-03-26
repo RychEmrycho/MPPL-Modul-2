@@ -36,9 +36,9 @@ func (pr *imageRepository) GetById(id uint) (*Image, error) {
 	return &image_, nil
 }
 
-func (pr *imageRepository) Update(p *Image) error {
+func (pr *imageRepository) Update(p *Image,id uint) error {
 	var image_ Image
-	pr.Conn.Find(image_, )
+	pr.Conn.Find(image_, id)
 
 	err := pr.Conn.Save(&p).Error
 

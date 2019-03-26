@@ -50,9 +50,10 @@ func (ph *SizeHandler) GetById(c echo.Context) error {
 
 func (ph *SizeHandler) Update(c echo.Context) error {
 	var size_ Size
-
-	err := c.Bind(&size_)
-
+	id_, err := strconv.Atoi(c.Param("id"))
+	id := uint(id_)
+	err = c.Bind(&size_)
+	size_.ID = id
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
@@ -61,7 +62,7 @@ func (ph *SizeHandler) Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	err = ph.SizeUsecase.UpdateSize(&size_)
+	err = ph.SizeUsecase.UpdateSize(&size_,id)
 
 	if err != nil {
 		return c.JSON(GetStatusCode(err), ResponseError{Message: err.Error()})
